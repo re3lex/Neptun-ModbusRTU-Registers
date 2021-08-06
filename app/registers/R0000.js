@@ -5,21 +5,60 @@ class R0000 extends BaseRegister {
   static startReg = 0;
 
   static fields = [
-    'floorWash',                  // Флаг состояния режима мойка пола
-    'firstGroupAlert',            // Флаг наличия тревоги по первой группе
-    'secondGroupAlert',           //
-    'wirelessSensorLowBat',       //    
-    'wirelessSensorLoss',         //  
-    'firstGroupTapClosing',       //Флаг закрытия кранов первой группе по потере датчиков
-    'secondGroupTapClosing',      // Флаг закрытия кранов второй группе по потере датчиков
-    'wirelessSensorPairingMode',  //Флаг запуска процедуры  подключения  беспроводных устройств
-    
-    'firstGroupTapState',         //Состояние кранов первой группы
-    'secondGroupTapState',        //Состояние кранов второй группы
-    'twoGroupsMode',              // Включение группирования
-    'tapsClosingOnSensorLoss',     // Закрывания кранов при потере беспроводного датчика протечки
-    'keyboardLock',               //Блокировки клавиатуры
+    'floorWash',
+    'firstGroupAlert',
+    'secondGroupAlert',
+    'wirelessSensorLowBat',
+    'wirelessSensorLoss',
+    'firstGroupTapClosing',
+    'secondGroupTapClosing',
+    'wirelessSensorPairingMode',
+    'firstGroupTapState',
+    'secondGroupTapState',
+    'twoGroupsMode',
+    'tapsClosingOnSensorLoss',
+    'keyboardLock',
   ]
+
+
+  // Флаг состояния режима мойка пола
+  floorWash;
+
+  // Флаг наличия тревоги по первой группе
+  firstGroupAlert;
+
+  // Флаг наличия тревоги по  второй группе
+  secondGroupAlert;
+
+  // Флаг разряда батарей в беспроводных датчиках    
+  wirelessSensorLowBat;
+
+  // Флаг потери беспроводных датчиков
+  wirelessSensorLoss;
+
+  // Флаг закрытия кранов первой группе по потере датчиков
+  firstGroupTapClosing;
+
+  // Флаг закрытия кранов второй группе по потере датчиков
+  secondGroupTapClosing;
+
+  // Флаг запуска процедуры  подключения  беспроводных устройств
+  wirelessSensorPairingMode;
+
+  // Состояние кранов первой группы
+  firstGroupTapState;
+
+  // Состояние кранов второй группы
+  secondGroupTapState;
+
+  // Включение группирования
+  twoGroupsMode;
+
+  // Закрывания кранов при потере беспроводного датчика протечки
+  tapsClosingOnSensorLoss;
+
+  // Блокировки клавиатуры
+  keyboardLock;
 
   static parse(buffer) {
     const r = new R0000();

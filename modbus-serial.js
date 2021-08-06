@@ -1,5 +1,5 @@
 var ModbusRTU = require("modbus-serial");
-const { R0000, R0003, R0005, R0115_R0118, R0127_R0128 } = require("./app/registers/index");
+const { R0000, R0001, R0002, R0004, R0003, R0005, R0115_R0118, R0127_R0128 } = require("./app/registers/index");
 
 
 var client = new ModbusRTU();
@@ -27,7 +27,7 @@ var mbsState = MBS_STATE_INIT;
 //==============================================================
 var connectClient = function () {
   // close port (NOTE: important in order not to create multiple connections)
-  client.close(()=>{});
+  client.close(() => { });
 
   // set requests parameters
   client.setID(mbsId);
@@ -49,7 +49,7 @@ var connectClient = function () {
 };
 
 const regCls = R0115_R0118;
-let write = false;
+let write = true;
 //==============================================================
 var readModbusData = function () {
   // try to read data
@@ -59,25 +59,39 @@ var readModbusData = function () {
       mbsStatus = "success";
       console.log('buffer', buffer);
       console.log('data', data);
-      
-      console.log('bin',regCls.toBin(data[0]));
 
       const reg = regCls.parse(buffer);
       console.log(reg);
 
-      buffer.readBit(0, 0);
 
       if (write) {
         write = false;
-        reg.floorWash = false;
+        reg.meter1Value = 99999999;
+        reg.meter2Value = 1234;
+
         const vals = reg.getRegValues();
-        console.log(vals);
-        client.writeRegister(0, vals[0]).then(function (d) {
-          console.log("Write to discrete input", d);
-        })
-          .catch(function (e) {
-            console.log(e.message);
-          })
+        console.log('write', vals);
+        if (1) {
+          const writeArr = [];
+          for (let i = 0; i < regCls.regLength; i++) {
+            writeArr.push(client.writeRegister(regCls.startReg + i, vals[i]));
+          }
+
+          const runPromisesSequence = async (promises) => {
+            try {
+              for (const x of promises) {
+                const d = await x;
+                console.log("Write to discrete input", d);
+                await new Promise((resolve, reject) => setTimeout(resolve, 1000));
+              }
+            } catch (e) {
+              console.log(e.message);
+              return;
+            }
+
+          }
+          runPromisesSequence(writeArr);
+        }
       }
     })
     .catch(function (e) {

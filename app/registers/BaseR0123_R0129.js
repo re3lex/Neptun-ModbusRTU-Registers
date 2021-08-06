@@ -4,16 +4,31 @@ const BaseRegister = require('./BaseRegister');
 class BaseR0123_R0129 extends BaseRegister {
   static regLength = 2;
 
-  static fields = [
-    'meter1State',      // Статус счетчика 
-    'meter1Type',       // Тип подключения счетчика
-    'meter1NamurError', // Наличие ошибок при типе подключения Namur 
-    'meter1Step',       // Шаг счета
-    'meter2State',      // Статус счетчика 
-    'meter2Type',       // Тип подключения счетчика
-    'meter2NamurError', // Наличие ошибок при типе подключения Namur 
-    'meter2Step',       // Шаг счета
-  ]
+  // Статус счетчика 
+  meter1State;
+
+  // Тип подключения счетчика
+  meter1Type;
+
+  // Наличие ошибок при типе подключения Namur 
+  meter1NamurError;
+
+  // Шаг счета
+  meter1Step;
+
+  // Статус счетчика 
+  meter2State;
+
+  // Тип подключения счетчика
+  meter2Type;
+
+  // Наличие ошибок при типе подключения Namur 
+  meter2NamurError;
+
+  // Шаг счета
+  meter2Step;
+
+
 
   static parse(buffer) {
     const r = this.getInstance();
@@ -32,7 +47,7 @@ class BaseR0123_R0129 extends BaseRegister {
     return r;
   }
 
-  static getInstance(){
+  static getInstance() {
     throw new Error("Should be implemented in sub-classes!");
   }
 

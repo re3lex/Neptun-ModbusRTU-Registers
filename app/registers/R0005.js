@@ -4,13 +4,15 @@ const BaseRegister = require('./BaseRegister');
 class R0005 extends BaseRegister {
   static startReg = 5;
 
-  static fields = [
-    'portSpeed',              // Скорость порта
-    'modbusAddr',             // Адрес модуля для MODBUS
-  ]
+
+  // Скорость порта
+  portSpeed;
+
+  // Адрес модуля для MODBUS
+  modbusAddr;
 
   static parse(buffer) {
-  const r = new R0005();
+    const r = new R0005();
     r.modbusAddr = buffer.readUInt8(0);
 
     const portSpeedIdx = buffer.readUInt8(1);

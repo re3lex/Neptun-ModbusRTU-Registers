@@ -1,5 +1,8 @@
 const R0000 = require("./R0000.js");
+const R0001 = require("./R0001.js");
+const R0002 = require("./R0002.js");
 const R0003 = require("./R0003.js");
+const R0004 = require("./R0004.js");
 const R0005 = require("./R0005.js");
 const R0107_R0110 = require("./R0107_R0110.js");
 const R0111_R0114 = require("./R0111_R0114.js");
@@ -12,7 +15,10 @@ const R0129_R130 = require("./R0129_R0130.js");
 
 module.exports = {
   R0000,
+  R0001,
+  R0002,
   R0003,
+  R0004,
   R0005,
 
   R0107_R0110,

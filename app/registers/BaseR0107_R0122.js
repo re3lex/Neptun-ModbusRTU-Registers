@@ -5,10 +5,8 @@ class BaseR0107_R0122 extends BaseRegister {
 
   static regLength = 4;
 
-  static fields = [
-    'meter1Value',
-    'meter2Value',
-  ]
+  meter1Value;
+  meter2Value;
 
   static parse(buffer) {
     //const r = this.getInstance();
@@ -18,8 +16,15 @@ class BaseR0107_R0122 extends BaseRegister {
     return r;
   }
 
-  static getInstance(){
+  static getInstance() {
     throw new Error("Should be implemented in sub-classes!");
+  }
+
+  getRegValues() {
+    const arr1 = this.toUint16Array(this.meter1Value);
+    const arr2 = this.toUint16Array(this.meter2Value);
+    
+    return [...arr1, ...arr2];
   }
 }
 
