@@ -1,0 +1,15 @@
+{
+  "name": "neptun-modbustcp_nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "jsmodbus": "cross-env DEBUG=* && node jsmodbus.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "modbus-serial": "^8.0.3"
+  }
+}
