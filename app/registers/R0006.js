@@ -10,7 +10,7 @@ class R0006 extends BaseRegister {
 
   static parse(buffer) {
     const r = new R0006();
-    r.wirelessSensorNumber = buffer.readUInt32BE(0);
+    r.wirelessSensorNumber = buffer.readUInt16BE(0);
 
     return r;
   }
