@@ -2,17 +2,13 @@ const BaseRegister = require('./BaseRegister');
 
 /** Base class for registers R0107 - R0122 */
 class BaseR0107_R0122 extends BaseRegister {
+  static regLength = 2;
 
-  static regLength = 4;
-
-  meter1Value;
-  meter2Value;
+  value;
 
   static parse(buffer) {
-    //const r = this.getInstance();
     const r = new this();
-    r.meter1Value = buffer.readUInt32BE(0);
-    r.meter2Value = buffer.readUInt32BE(4);
+    r.value = buffer.readUInt32BE(0);
     return r;
   }
 
@@ -21,10 +17,9 @@ class BaseR0107_R0122 extends BaseRegister {
   }
 
   getRegValues() {
-    const arr1 = this.toUint16Array(this.meter1Value);
-    const arr2 = this.toUint16Array(this.meter2Value);
+    const arr1 = this.toUint16Array(this.value);
     
-    return [...arr1, ...arr2];
+    return [...arr1];
   }
 }
 

@@ -1,5 +1,6 @@
+require('dotenv').config();
 var ModbusRTU = require("modbus-serial");
-const { R0000, R0001, R0002, R0004, R0003, R0005, R0115_R0118, R0127_R0128 } = require("./app/registers/index");
+const { R0000, R0001, R0002, R0004, R0003, R0005, R0115_R0116, R0127 } = require("./app/registers/index");
 
 
 var client = new ModbusRTU();
@@ -16,9 +17,9 @@ var MBS_STATE_GOOD_CONNECT = "State good (port)";
 var MBS_STATE_FAIL_CONNECT = "State fail (port)";
 
 // Modbus TCP configuration values
-var mbsId = 240;
+var mbsId = process.env.NEPTUN_ID;
 var mbsPort = 503;
-var mbsHost = "192.168.1.222";
+var mbsHost = process.env.NEPTUN_IP;
 var mbsScan = 3000;
 var mbsTimeout = 5000;
 var mbsState = MBS_STATE_INIT;
@@ -48,8 +49,8 @@ var connectClient = function () {
 
 };
 
-const regCls = R0115_R0118;
-let write = true;
+const regCls = R0115_R0116;
+let write = false;
 //==============================================================
 var readModbusData = function () {
   // try to read data
