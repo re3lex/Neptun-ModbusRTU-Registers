@@ -1,8 +1,14 @@
-
 const ModbusRTU = require("modbus-serial");
-const registers = require("../registers/index");
-const BaseR0057_R0106 = require("../registers/BaseR0057_R0106");
-const BaseR0007_R0056 = require("../registers/BaseR0007_R0056");
+const R0000 = require("../registers/R0000");
+const R0001_R0002 = require("../registers/R0001_R0002");
+const R0003 = require("../registers/R0003");
+const R0004 = require("../registers/R0004");
+const R0005 = require("../registers/R0005");
+const R0006 = require("../registers/R0006");
+const R0007_R0056 = require("../registers/R0007_R0056");
+const R0057_R0106 = require("../registers/R0057_R0106");
+const R0107_R0122 = require("../registers/R0107_R0122");
+const R0123_R0130 = require("../registers/R0123_R0130");
 
 const STATES = {
   INIT: "State init",
@@ -14,41 +20,35 @@ const STATES = {
   FAIL_CONNECT: "State fail (port)",
 };
 
-const regClsMap =
-{
-  0: registers.R0000,
-  1: registers.R0001,
-  2: registers.R0002,
-  3: registers.R0003,
-  4: registers.R0004,
-  5: registers.R0005,
-  6: registers.R0006,
 
-  107: registers.R0107_R0108,
-  109: registers.R0109_R0110,
-  111: registers.R0111_R0112,
-  113: registers.R0113_R0114,
-  115: registers.R0115_R0116,
-  117: registers.R0117_R0118,
-  119: registers.R0119_R0120,
-  121: registers.R0121_R0122,
+const getRegisterClass = (reg) => {
+  switch (reg) {
+    case 0:
+      return R0000;
+    case 3:
+      return R0003;
+    case 4:
+      return R0004;
+    case 5:
+      return R0005;
+    case 6:
+      return R0006;
+  }
 
-  123: registers.R0123,
-  124: registers.R0124,
-  125: registers.R0125,
-  126: registers.R0126,
-  127: registers.R0127,
-  128: registers.R0128,
-  129: registers.R0129,
-  130: registers.R0130,
-}
-
-const getGeneratedCls = (reg) => {
-  if (reg >= 7 && reg <= 56) {
-    return BaseR0007_R0056.getRegClass(reg);
+  if (reg === 1 || reg === 2) {
+    return R0001_R0002.getRegClass(reg);
+  }
+  else if (reg >= 7 && reg <= 56) {
+    return R0007_R0056.getRegClass(reg);
   }
   else if (reg >= 57 && reg <= 106) {
-    return BaseR0057_R0106.getRegClass(reg);
+    return R0057_R0106.getRegClass(reg);
+  }
+  else if (reg >= 107 && reg <= 122) {
+    return R0107_R0122.getRegClass(reg);
+  }
+  else if (reg >= 123 && reg <= 130) {
+    return R0123_R0130.getRegClass(reg);
   }
 }
 
@@ -137,10 +137,8 @@ class NeptunClient {
 
     const regsClsToRead = [];
     for (let reg = readStartReg; reg < readStartReg + readLength; reg++) {
-      let regCls = regClsMap[reg];
-      if (!regCls) {
-        regCls = getGeneratedCls(reg);
-      }
+      const regCls = getRegisterClass(reg);
+      
       if (!regCls) {
         throw new Error(`Unable to get register class for ${reg}`);
       }

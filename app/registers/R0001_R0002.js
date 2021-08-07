@@ -1,7 +1,12 @@
 const BaseRegister = require('./BaseRegister');
 
-/** Base class for registers R0001 - R0002 */
-class BaseR0001_R0002 extends BaseRegister {
+/** 
+  Base class for registers R0001 - R0002 
+
+  0001: Конфигурация входа проводной линии датчиков 1 и 2
+  0002: Конфигурация входа проводной линии датчиков 3 и 4
+*/
+class R0001_R0002 extends BaseRegister {
 
   /**
    Управление линиями кранов 2
@@ -25,17 +30,25 @@ class BaseR0001_R0002 extends BaseRegister {
 
 
   static parse(buffer) {
-    const r = this.getInstance();
+    const r = new this();
     r.controlingGroupForLine2 = this.getBits(buffer, 1, 0, 2);
     r.inputTypeLine2 = this.getBits(buffer, 1, 2, 2);
+    
     r.controlingGroupForLine1 = this.getBits(buffer, 0, 0, 2);
     r.inputTypeLine1 = this.getBits(buffer, 0, 2, 2);
 
     return r;
   }
 
-  static getInstance() {
-    throw new Error("Should be implemented in sub-classes!");
+  static getRegClass(reg) {
+    if (reg < 1 || reg > 2) {
+      throw new Error('Only registers 1 and 2 are supported!');
+    }
+
+    const className = `R000${reg}`;
+    return eval(`(class ${className} extends R0001_R0002 {
+      static startReg = ${reg};
+    })`);
   }
 
   getRegValues() {
@@ -54,4 +67,4 @@ class BaseR0001_R0002 extends BaseRegister {
 }
 
 
-module.exports = BaseR0001_R0002;
+module.exports = R0001_R0002;

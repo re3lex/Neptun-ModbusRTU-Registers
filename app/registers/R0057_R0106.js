@@ -1,7 +1,13 @@
 const BaseRegister = require('./BaseRegister');
 
-/** Base class for registers R0057 - R0106 */
-class BaseR0057_R0106 extends BaseRegister {
+/** 
+  Base class for registers R0057 - R0106 
+
+  0057: Статус беспроводного датчика 1
+    ...
+  0106: Статус беспроводного датчика 50
+ */
+class R0057_R0106 extends BaseRegister {
 
   //Наличие тревоги 
   alert;    
@@ -26,7 +32,7 @@ class BaseR0057_R0106 extends BaseRegister {
   batLevel;
 
   static parse(buffer) {
-    const r = this.getInstance();
+    const r = new this();
     r.alert = buffer.readBit(0, 1);
     r.lowBat = buffer.readBit(1, 1);
     r.missed = buffer.readBit(2, 1);
@@ -36,8 +42,15 @@ class BaseR0057_R0106 extends BaseRegister {
     return r;
   }
 
-  static getInstance() {
-    throw new Error("Should be implemented in sub-classes!");
+  static getRegClass(reg) {
+    if (reg < 57 || reg > 106) {
+      throw new Error('Only registers between 57 and 106 are supported!');
+    }
+
+    const className = `R0${reg < 100 ? '0' : ''}${reg}`;
+    return eval(`(class ${className} extends R0057_R0106 {
+      static startReg = ${reg};
+    })`);
   }
 
   getRegValues() {
@@ -52,22 +65,7 @@ class BaseR0057_R0106 extends BaseRegister {
     const bin = data.join("");
     return [parseInt(bin, 2)];
   }
-
-  static getRegClass(reg) {
-    if (reg < 57 || reg > 106) {
-      throw new Error('Only registers between 57 and 106 are supported!');
-    }
-
-    const className = `R0${reg < 100 ? '0' : ''}${reg}`;
-    return eval(`(class ${className} extends BaseR0057_R0106 {
-      static startReg = ${reg};
-
-      static getInstance(){
-        return new this();
-      }
-    })`);
-  }
 }
 
 
-module.exports = BaseR0057_R0106;
+module.exports = R0057_R0106;

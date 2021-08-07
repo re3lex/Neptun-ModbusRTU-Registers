@@ -6,9 +6,10 @@ if (result.error) {
 }
 
 const NeptunClient = require('./app/client/NeptunClient');
-const { R0000, R0001, R0002, R0006, R0003, R0005, R0115_R0116, R0127, R0128 } = require("./app/registers/index");
-const BaseR0123_R0130 = require("./app/registers/BaseR0123_R0130");
-const BaseR0007_R0056 = require("./app/registers/BaseR0007_R0056");
+const R0001_R0002 = require("./app/registers/R0001_R0002");
+
+const R0123_R0130 = require("./app/registers/R0123_R0130");
+
 
 
 
@@ -21,10 +22,13 @@ const client = new NeptunClient({
 
 
 const fn = async () => {
-  let reg = await client.read(R0000); 
+  let reg = await client.read(R0001_R0002.getRegClass(1));
   console.log('reg', reg);
-   reg = await client.read(R0001); 
+  
+  reg = await client.read(R0001_R0002.getRegClass(2));
   console.log('reg', reg);
+  
+  
 
 
   const regs = await client.readAll();

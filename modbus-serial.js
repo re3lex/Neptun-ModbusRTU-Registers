@@ -1,6 +1,6 @@
 require('dotenv').config();
 var ModbusRTU = require("modbus-serial");
-const { R0000, R0001, R0002, R0004, R0003, R0005, R0115_R0116, R0127 } = require("./app/registers/index");
+const R0107_R0122 = require("./app/registers/R0107_R0122");
 
 
 var client = new ModbusRTU();
@@ -49,7 +49,7 @@ var connectClient = function () {
 
 };
 
-const regCls = R0115_R0116;
+const regCls = R0107_R0122.getRegClass(115);
 let write = false;
 //==============================================================
 var readModbusData = function () {
