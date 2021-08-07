@@ -43,6 +43,20 @@ class BaseR0123_R0130 extends BaseRegister {
     const bin = data.join("");
     return [parseInt(bin, 2)];
   }
+
+  static getRegClass(reg) {
+    if(reg < 123 || reg > 130) {
+      throw new Error('Only registers between 123 and 130 are supported!');
+    }
+    
+    return eval(`(class R0${reg} extends BaseR0123_R0130 {
+      static startReg = ${reg};
+
+      static getInstance(){
+        return new this();
+      }
+    })`);
+  }
 }
 
 

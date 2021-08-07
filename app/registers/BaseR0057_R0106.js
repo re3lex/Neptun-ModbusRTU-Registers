@@ -52,6 +52,21 @@ class BaseR0057_R0106 extends BaseRegister {
     const bin = data.join("");
     return [parseInt(bin, 2)];
   }
+
+  static getRegClass(reg) {
+    if (reg < 57 || reg > 106) {
+      throw new Error('Only registers between 57 and 106 are supported!');
+    }
+
+    const className = `R0${reg < 100 ? '0' : ''}${reg}`;
+    return eval(`(class ${className} extends BaseR0057_R0106 {
+      static startReg = ${reg};
+
+      static getInstance(){
+        return new this();
+      }
+    })`);
+  }
 }
 
 

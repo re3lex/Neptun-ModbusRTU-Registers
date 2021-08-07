@@ -33,6 +33,22 @@ class BaseR0007_R0056 extends BaseRegister {
     const bin = data.join("");
     return [parseInt(bin, 2)];
   }
+
+
+  static getRegClass(reg) {
+    if (reg < 7 || reg > 56) {
+      throw new Error('Only registers between 7 and 56 are supported!');
+    }
+
+    const className = `R00${reg < 10 ? '0' : ''}${reg}`;
+    return eval(`(class ${className} extends BaseR0007_R0056 {
+      static startReg = ${reg};
+
+      static getInstance(){
+        return new this();
+      }
+    })`);
+  }
 }
 
 
