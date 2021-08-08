@@ -10,7 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "dotenv": "^10.0.0",
     "modbus-serial": "^8.0.3"
+  },
+  "devDependencies": {
+    "dotenv": "^10.0.0"
   }
 }
