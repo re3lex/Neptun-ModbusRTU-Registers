@@ -1,6 +1,6 @@
 require('dotenv').config();
 var ModbusRTU = require("modbus-serial");
-const R0107_R0122 = require("./app/registers/R0107_R0122");
+const R0107_R0122 = require("./src/registers/R0107_R0122");
 
 
 var client = new ModbusRTU();
