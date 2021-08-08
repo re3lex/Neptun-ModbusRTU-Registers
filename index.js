@@ -5,10 +5,10 @@ if (result.error) {
   throw result.error
 }
 
-const NeptunClient = require('./app/client/NeptunClient');
-const R0001_R0002 = require("./app/registers/R0001_R0002");
+const NeptunClient = require('./src/client/NeptunClient');
+const R0001_R0002 = require("./src/registers/R0001_R0002");
 
-const R0123_R0130 = require("./app/registers/R0123_R0130");
+const R0123_R0130 = require("./src/registers/R0123_R0130");
 
 
 const client = new NeptunClient({
