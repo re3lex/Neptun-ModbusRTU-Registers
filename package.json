@@ -1,11 +1,11 @@
 {
-  "name": "neptun-modbustcp_nodejs",
+  "name": "neptun-modbustcp-registers",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "jsmodbus": "cross-env DEBUG=* && node jsmodbus.js"
+    "start": "node index.js"
   },
   "author": "",
   "license": "ISC",
