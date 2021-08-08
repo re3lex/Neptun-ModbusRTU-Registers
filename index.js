@@ -11,14 +11,10 @@ const R0001_R0002 = require("./app/registers/R0001_R0002");
 const R0123_R0130 = require("./app/registers/R0123_R0130");
 
 
-
-
-
 const client = new NeptunClient({
   ip: process.env.NEPTUN_IP,
   id: process.env.NEPTUN_ID,
 })
-
 
 
 const fn = async () => {
@@ -29,8 +25,6 @@ const fn = async () => {
   console.log('reg', reg);
   
   
-
-
   const regs = await client.readAll();
   console.log(regs.length);
 }
