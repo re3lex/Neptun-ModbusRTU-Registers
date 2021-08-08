@@ -1,5 +1,5 @@
 {
-  "name": "neptun-modbustcp-registers",
+  "name": "neptun-modbusrtu-registers",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
