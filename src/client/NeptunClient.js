@@ -79,7 +79,7 @@ class NeptunClient {
     else if (reg >= 57 && reg <= 106) {
       return R0057_R0106.getRegClass(reg);
     }
-    else if (reg >= 107 && reg <= 122) {
+    else if (reg >= 107 && reg <= 122 && reg % 2 === 1) {
       return R0107_R0122.getRegClass(reg);
     }
     else if (reg >= 123 && reg <= 130) {
