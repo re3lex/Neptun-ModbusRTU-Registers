@@ -102,23 +102,22 @@ class NeptunClient {
     const { data, buffer } = await this.client.readHoldingRegisters(regCls.startReg, regCls.regLength)
       .catch((e) => {
         this.state = STATES.FAIL_READ;
-        this.client.close(() => { });
         throw e;
-      });
+      })
+      .finally(() => this.client.close(() => { }));
     this.state = STATES.GOOD_READ;
 
     console.log('buffer', buffer);
     console.log('data', data);
 
     const reg = regCls.parse(buffer);
-    this.client.close(() => { });
+
     return reg;
   }
 
   async readAll() {
     const regs0_106 = await this.readRegisters(0, 107);
     const regs107_130 = await this.readRegisters(107, 24);
-    this.client.close(() => { });
 
     return [...regs0_106, ...regs107_130];
   }
@@ -151,9 +150,9 @@ class NeptunClient {
     const { data, buffer } = await this.client.readHoldingRegisters(readStartReg, readLength)
       .catch((e) => {
         this.state = STATES.FAIL_READ;
-        this.client.close(() => { });
         throw e;
-      });
+      })
+      .finally(() => this.client.close(() => { }));
     this.state = STATES.GOOD_READ;
 
     const result = [];
@@ -168,6 +167,7 @@ class NeptunClient {
 
       dataStartIdx = offset;
     }
+    console.log('Read all finished');
     return result;
   }
 }
