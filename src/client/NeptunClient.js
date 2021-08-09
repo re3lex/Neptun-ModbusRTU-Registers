@@ -21,37 +21,6 @@ const STATES = {
 };
 
 
-const getRegisterClass = (reg) => {
-  switch (reg) {
-    case 0:
-      return R0000;
-    case 3:
-      return R0003;
-    case 4:
-      return R0004;
-    case 5:
-      return R0005;
-    case 6:
-      return R0006;
-  }
-
-  if (reg === 1 || reg === 2) {
-    return R0001_R0002.getRegClass(reg);
-  }
-  else if (reg >= 7 && reg <= 56) {
-    return R0007_R0056.getRegClass(reg);
-  }
-  else if (reg >= 57 && reg <= 106) {
-    return R0057_R0106.getRegClass(reg);
-  }
-  else if (reg >= 107 && reg <= 122) {
-    return R0107_R0122.getRegClass(reg);
-  }
-  else if (reg >= 123 && reg <= 130) {
-    return R0123_R0130.getRegClass(reg);
-  }
-}
-
 class NeptunClient {
 
   constructor({ id, ip }) {
@@ -85,6 +54,37 @@ class NeptunClient {
         console.error(e);
         return STATES.FAIL_CONNECT;
       });
+  }
+
+  getRegisterClass(reg) {
+    switch (reg) {
+      case 0:
+        return R0000;
+      case 3:
+        return R0003;
+      case 4:
+        return R0004;
+      case 5:
+        return R0005;
+      case 6:
+        return R0006;
+    }
+
+    if (reg === 1 || reg === 2) {
+      return R0001_R0002.getRegClass(reg);
+    }
+    else if (reg >= 7 && reg <= 56) {
+      return R0007_R0056.getRegClass(reg);
+    }
+    else if (reg >= 57 && reg <= 106) {
+      return R0057_R0106.getRegClass(reg);
+    }
+    else if (reg >= 107 && reg <= 122) {
+      return R0107_R0122.getRegClass(reg);
+    }
+    else if (reg >= 123 && reg <= 130) {
+      return R0123_R0130.getRegClass(reg);
+    }
   }
 
   async read(regCls) {
@@ -137,8 +137,8 @@ class NeptunClient {
 
     const regsClsToRead = [];
     for (let reg = readStartReg; reg < readStartReg + readLength; reg++) {
-      const regCls = getRegisterClass(reg);
-      
+      const regCls = this.getRegisterClass(reg);
+
       if (!regCls) {
         throw new Error(`Unable to get register class for ${reg}`);
       }
