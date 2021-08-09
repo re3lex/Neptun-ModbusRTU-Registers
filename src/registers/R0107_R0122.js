@@ -14,6 +14,9 @@ const BaseRegister = require('./BaseRegister');
 */
 class R0107_R0122 extends BaseRegister {
   static regLength = 2;
+  static fields = [
+    'value'
+  ]
 
   value;
 
@@ -33,10 +36,10 @@ class R0107_R0122 extends BaseRegister {
       static startReg = ${reg};
     })`);
   }
-  
+
   getRegValues() {
     const arr1 = this.toUint16Array(this.value);
-    
+
     return [...arr1];
   }
 }

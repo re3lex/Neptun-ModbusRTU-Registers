@@ -4,6 +4,10 @@ const BaseRegister = require('./BaseRegister');
 class R0004 extends BaseRegister {
   static startReg = 4;
 
+  static fields = [
+    'tapSwitchOnAlert',
+    'tapSwitchOnClosing'
+  ]
 
   /*
     Переключение по тревоге

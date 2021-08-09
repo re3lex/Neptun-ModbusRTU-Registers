@@ -13,17 +13,6 @@ class BaseRegister {
     }
     return bin;
   }
-  toBin(data, length) {
-    return this.constructor.toBin(data, length);
-  }
-
-  toUint16Array(num) {
-    const arr = new Uint16Array([
-      (num & 0xffff0000) >> 16,
-      (num & 0x0000ffff)
- ])
-    return arr;
-  }
 
   static getBits(buffer, byteOffset, startBitOffset, length, raw) {
     let bin = '';
@@ -33,8 +22,37 @@ class BaseRegister {
     return raw ? bin : parseInt(bin, 2);
   }
 
+  static fromJSON(data) {
+    const { fields } = this;
+
+    const reg = new this();
+    fields.forEach(f => {
+      reg[f] = data[f];
+    });
+    
+    return reg;
+  }
+
+  toBin(data, length) {
+    return this.constructor.toBin(data, length);
+  }
+
+  toUint16Array(num) {
+    const arr = new Uint16Array([
+      (num & 0xffff0000) >> 16,
+      (num & 0x0000ffff)
+    ])
+    return arr;
+  }
+
   getRegValues() {
     throw new Error("Should be implemented in sub-classes!");
+  }
+
+  toJSON() {
+    const { name, startReg, regLength } = this.constructor;
+    const json = { name, startReg, regLength, ...this };
+    return json;
   }
 }
 

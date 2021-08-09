@@ -3,6 +3,9 @@ const BaseRegister = require('./BaseRegister');
 /** Количество подключенных беспроводных датчиков  */
 class R0006 extends BaseRegister {
   static startReg = 6;
+  static fields = [
+    'wirelessSensorNumber'
+  ]
 
   // Количество датчиков
   wirelessSensorNumber;

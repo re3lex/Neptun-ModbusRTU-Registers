@@ -8,6 +8,9 @@ const BaseRegister = require('./BaseRegister');
   0056: Параметры беспроводного датчика 50
 */
 class R0007_R0056 extends BaseRegister {
+  static fields = [
+    'wirelessSensorEventAffectedGroup'
+  ]
 
   /**
    Отработка событий по группам 

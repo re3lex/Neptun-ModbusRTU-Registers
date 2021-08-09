@@ -8,6 +8,13 @@ const BaseRegister = require('./BaseRegister');
   0106: Статус беспроводного датчика 50
  */
 class R0057_R0106 extends BaseRegister {
+  static fields = [
+    'alert',
+    'lowBat',
+    'missed',
+    'link',
+    'batLevel'
+  ]
 
   //Наличие тревоги 
   alert;    

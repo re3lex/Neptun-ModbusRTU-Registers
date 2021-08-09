@@ -3,7 +3,10 @@ const BaseRegister = require('./BaseRegister');
 /** Адрес MODBUS и скорость порта */
 class R0005 extends BaseRegister {
   static startReg = 5;
-
+  static fields = [
+    'portSpeed',
+    'modbusAddr'
+  ]
 
   // Скорость порта
   portSpeed;

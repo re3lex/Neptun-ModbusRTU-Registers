@@ -14,6 +14,12 @@ const BaseRegister = require('./BaseRegister');
  
 */
 class R0123_R0130 extends BaseRegister {
+  static fields = [
+    'enabled',
+    'type',
+    'namurError',
+    'step'
+  ]
 
   // Статус счетчика 
   enabled;
@@ -53,10 +59,10 @@ class R0123_R0130 extends BaseRegister {
   }
 
   static getRegClass(reg) {
-    if(reg < 123 || reg > 130) {
+    if (reg < 123 || reg > 130) {
       throw new Error('Only registers between 123 and 130 are supported!');
     }
-    
+
     return eval(`(class R0${reg} extends R0123_R0130 {
       static startReg = ${reg};
     })`);
