@@ -11,4 +11,4 @@ NEPTUN_ID=240
 - `NEPTUN_ID` адрес модуля для обращения по протоколу MODBUS. По-умолчанию адрес **240**
 
 
-Детально регистры описаны в документе https://s.siteapi.org/1b05f7bbad9a56b/docs/3jl34bgaunmsgcgog04ooccsswws4s
+Детально регистры описаны в документе https://www.teploluxe.ru/upload/iblock/f71/f71d774c4bb641cf0e80051c7e3a82ca.pdf
