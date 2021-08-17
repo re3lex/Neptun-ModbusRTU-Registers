@@ -24,7 +24,7 @@ class R0000 extends BaseRegister {
     },
     'wirelessSensorLowBat': {
       type: 'boolean',
-      description: 'Флаг разряда батарей в беспроводных датчиках    ',
+      description: 'Флаг разряда батарей в беспроводных датчиках',
     },
     'wirelessSensorLoss': {
       type: 'boolean',
