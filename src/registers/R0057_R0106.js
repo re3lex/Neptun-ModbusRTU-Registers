@@ -43,7 +43,7 @@ class R0057_R0106 extends BaseRegister {
     r.alert = buffer.readBit(0, 1);
     r.lowBat = buffer.readBit(1, 1);
     r.missed = buffer.readBit(2, 1);
-    r.link = this.getBits(buffer, 3, 3);
+    r.link = this.getBits(buffer, 1, 3, 3);
     r.batLevel = buffer.readUInt8(0);
 
     return r;
