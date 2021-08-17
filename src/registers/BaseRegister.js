@@ -26,7 +26,7 @@ class BaseRegister {
     const { fields } = this;
 
     const reg = new this();
-    fields.forEach(f => {
+    Object.keys(fields).forEach(f => {
       reg[f] = data[f];
     });
 
@@ -52,7 +52,7 @@ class BaseRegister {
   toJSON() {
     const { name, startReg, regLength, fields } = this.constructor;
     const description = this.constructor.getDescription();
-    const json = { name, startReg, regLength, description, fields, ...this };
+    const json = { name, startReg, regLength, description, fields, data: {...this} };
     return json;
   }
 }
