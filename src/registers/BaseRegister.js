@@ -29,7 +29,7 @@ class BaseRegister {
     fields.forEach(f => {
       reg[f] = data[f];
     });
-    
+
     return reg;
   }
 
@@ -50,8 +50,9 @@ class BaseRegister {
   }
 
   toJSON() {
-    const { name, startReg, regLength } = this.constructor;
-    const json = { name, startReg, regLength, ...this };
+    const { name, startReg, regLength, fields } = this.constructor;
+    const description = this.constructor.getDescription();
+    const json = { name, startReg, regLength, description, fields, ...this };
     return json;
   }
 }

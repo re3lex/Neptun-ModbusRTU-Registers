@@ -8,16 +8,45 @@ const BaseRegister = require('./BaseRegister');
   0106: Статус беспроводного датчика 50
  */
 class R0057_R0106 extends BaseRegister {
-  static fields = [
-    'alert',
-    'lowBat',
-    'missed',
-    'link',
-    'batLevel'
-  ]
+
+  static getDescription() {
+    const v = this.startReg - 56;
+    return `Статус беспроводного датчика ${v}`;
+  }
+
+  static fields = {
+    'alert': {
+      type: 'boolean',
+      description: 'Наличие тревоги '
+    },
+    'lowBat': {
+      type: 'boolean',
+      description: 'Наличие разряда '
+    },
+    'missed': {
+      type: 'boolean',
+      description: 'Потеря датчика'
+    },
+    'link': {
+      type: 'list',
+      options: {
+        0: 'нет связи',
+        1: 'слабый',
+        2: 'средний',
+        3: 'хороший',
+        4: 'отличный',
+
+      },
+      description: 'Уровень сигнала от датчика'
+    },
+    'batLevel': {
+      type: 'int',
+      description: 'Уровень заряда батареи'
+    }
+  }
 
   //Наличие тревоги 
-  alert;    
+  alert;
 
   //Наличие разряда 
   lowBat;

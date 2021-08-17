@@ -14,12 +14,83 @@ const BaseRegister = require('./BaseRegister');
  
 */
 class R0123_R0130 extends BaseRegister {
-  static fields = [
-    'enabled',
-    'type',
-    'namurError',
-    'step'
-  ]
+
+  static getDescription() {
+    let counter;
+    let slot;
+
+    switch (this.startReg) {
+      case 123:
+        counter = 1;
+        slot = 1
+        break;
+      case 124:
+        counter = 2;
+        slot = 1
+        break;
+      case 125:
+        counter = 1;
+        slot = 2
+        break;
+      case 126:
+        counter = 2;
+        slot = 2
+        break;
+      case 127:
+        counter = 1;
+        slot = 3
+        break;
+      case 128:
+        counter = 2;
+        slot = 3
+        break;
+      case 129:
+        counter = 1;
+        slot = 4
+        break;
+      case 130:
+        counter = 2;
+        slot = 4
+        break;
+    }
+    return `Настройки ${counter} счетчика в слоте ${slot}`;
+  }
+
+  static fields = {
+    'enabled': {
+      type: 'boolean',
+      description: 'Статус счетчика',
+      writable: true
+    },
+    'type': {
+      type: 'list',
+      options: {
+        0: 'обычное',
+        1: 'Namur',
+      },
+      description: 'Тип подключения счетчика',
+      writable: true
+    },
+    'namurError': {
+      type: 'list',
+      options: {
+        0: 'нет ошибок',
+        1: 'КЗ линии',
+        2: 'обрыв линии',
+      },
+      description: 'Наличие ошибок при типе подключения Namur'
+    },
+    'step': {
+      type: 'list',
+      options: {
+        1: 1,
+        10: 10,
+        100: 100
+      },
+      description: 'Шаг счета',
+      writable: true
+    },
+  }
 
   // Статус счетчика 
   enabled;

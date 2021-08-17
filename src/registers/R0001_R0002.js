@@ -7,13 +7,53 @@ const BaseRegister = require('./BaseRegister');
   0002: Конфигурация входа проводной линии датчиков 3 и 4
 */
 class R0001_R0002 extends BaseRegister {
-  static fields = [
-    'controlingGroupForLine2',
-    'inputTypeLine2',
-    'controlingGroupForLine1',
-    'inputTypeLine1'
-  ]
-  
+
+  static getDescription() {
+    const v = this.startReg === 1 ? '1 и 2' : '3 и 4';
+    return `Конфигурация входа проводной линии датчиков ${v}`;
+  }
+
+  static fields = {
+    'controlingGroupForLine2': {
+      type: 'list',
+      description: 'Управление линиями кранов 2',
+      options: {
+        1: 'краны первой группы',
+        2: 'краны второй группы',
+        3: 'краны обеих групп',
+      },
+      writable: true
+    },
+    'inputTypeLine2': {
+      type: 'list',
+      description: 'Конфигурация типа входа линии 2',
+      options: {
+        0: 'датчики',
+        1: 'кнопка',
+      },
+      writable: true
+    },
+    'controlingGroupForLine1': {
+      type: 'list',
+      description: 'Управление линиями кранов 1',
+      options: {
+        1: 'краны первой группы',
+        2: 'краны второй группы',
+        3: 'краны обеих групп',
+      },
+      writable: true
+    },
+    'inputTypeLine1': {
+      type: 'list',
+      description: 'Конфигурация типа входа линии 1',
+      options: {
+        0: 'датчики',
+        1: 'кнопка',
+      },
+      writable: true
+    },
+  }
+
   /**
    Управление линиями кранов 2
     1 – краны первой группы; 

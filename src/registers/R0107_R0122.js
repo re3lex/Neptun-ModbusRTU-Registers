@@ -14,9 +14,55 @@ const BaseRegister = require('./BaseRegister');
 */
 class R0107_R0122 extends BaseRegister {
   static regLength = 2;
-  static fields = [
-    'value'
-  ]
+
+  static getDescription() {
+    let counter;
+    let slot;
+
+    switch (this.startReg) {
+      case 107:
+        counter = 1;
+        slot = 1
+        break;
+      case 109:
+        counter = 2;
+        slot = 1
+        break;
+      case 111:
+        counter = 1;
+        slot = 2
+        break;
+      case 113:
+        counter = 2;
+        slot = 2
+        break;
+      case 115:
+        counter = 1;
+        slot = 3
+        break;
+      case 117:
+        counter = 2;
+        slot = 3
+        break;
+      case 119:
+        counter = 1;
+        slot = 4
+        break;
+      case 121:
+        counter = 2;
+        slot = 4
+        break;
+    }
+    return `Показания ${counter} счетчика в слоте ${slot}`;
+  }
+
+  static fields = {
+    'value': {
+      type: 'int',
+      max: 99999999,
+      description: 'Показания'
+    }
+  }
 
   value;
 

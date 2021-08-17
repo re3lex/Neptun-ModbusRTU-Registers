@@ -4,10 +4,34 @@ const BaseRegister = require('./BaseRegister');
 class R0004 extends BaseRegister {
   static startReg = 4;
 
-  static fields = [
-    'tapSwitchOnAlert',
-    'tapSwitchOnClosing'
-  ]
+  static getDescription() {
+    return `Конфигурация реле событий`;
+  }
+
+  static fields = {
+    'tapSwitchOnAlert': {
+      type: 'list',
+      options: {
+        0: 'не переключать',
+        1: 'первая группа',
+        2: 'вторая группа',
+        3: 'обе группы',
+      },
+      description: 'Переключение по тревоге',
+      writable: true,
+    },
+    'tapSwitchOnClosing': {
+      type: 'list',
+      options: {
+        0: 'не переключать',
+        1: 'первая группа',
+        2: 'вторая группа',
+        3: 'обе группы',
+      },
+      description: 'Переключение по закрыванию кранов',
+      writable: true,
+    },
+  }
 
   /*
     Переключение по тревоге

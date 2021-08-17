@@ -4,12 +4,28 @@ const BaseRegister = require('./BaseRegister');
 class R0003 extends BaseRegister {
   static startReg = 3;
 
-  static fields = [
-    'wiredSensorLine1State',
-    'wiredSensorLine2State',
-    'wiredSensorLine3State',
-    'wiredSensorLine4State',
-  ]
+  static getDescription() {
+    return `Статус входов проводных линий`;
+  }
+
+  static fields = {
+    'wiredSensorLine1State': {
+      type: 'boolean',
+      description: 'Статус первой линии'
+    },
+    'wiredSensorLine2State': {
+      type: 'boolean',
+      description: 'Статус второй линии'
+    },
+    'wiredSensorLine3State': {
+      type: 'boolean',
+      description: 'Статус третьей линии'
+    },
+    'wiredSensorLine4State': {
+      type: 'boolean',
+      description: 'Статус четвертой линии'
+    },
+  }
 
 
   // Статус первой линии
@@ -27,7 +43,7 @@ class R0003 extends BaseRegister {
   static parse(buffer) {
     const r = new R0003();
 
-    R0003.fields.forEach((f, idx) => {
+    Object.keys(R0003.fields).forEach((f, idx) => {
       r[f] = buffer.readBit(idx % 8, 0);
     });
     return r;

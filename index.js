@@ -21,7 +21,7 @@ const client = new NeptunClient({
 
 const fn = async () => {
   let reg = await client.read(R0007_R0056.getRegClass(7));
-  console.log('reg', reg);
+  console.log('reg', reg.toJSON());
   
   reg = await client.read(R0057_R0106.getRegClass(57));
   console.log('reg', reg);

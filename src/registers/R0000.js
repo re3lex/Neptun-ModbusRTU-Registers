@@ -4,21 +4,71 @@ const BaseRegister = require('./BaseRegister');
 class R0000 extends BaseRegister {
   static startReg = 0;
 
-  static fields = [
-    'floorWash',
-    'firstGroupAlert',
-    'secondGroupAlert',
-    'wirelessSensorLowBat',
-    'wirelessSensorLoss',
-    'firstGroupTapClosing',
-    'secondGroupTapClosing',
-    'wirelessSensorPairingMode',
-    'firstGroupTapState',
-    'secondGroupTapState',
-    'twoGroupsMode',
-    'tapsClosingOnSensorLoss',
-    'keyboardLock',
-  ]
+  static getDescription() {
+    return 'Конфигурация и статус  модуля';
+  }
+
+  static fields = {
+    'floorWash': {
+      type: 'boolean',
+      description: 'Флаг состояния режима мойка пола',
+      writable: true
+    },
+    'firstGroupAlert': {
+      type: 'boolean',
+      description: 'Флаг наличия тревоги по первой группе',
+    },
+    'secondGroupAlert': {
+      type: 'boolean',
+      description: 'Флаг наличия тревоги по  второй группе',
+    },
+    'wirelessSensorLowBat': {
+      type: 'boolean',
+      description: 'Флаг разряда батарей в беспроводных датчиках    ',
+    },
+    'wirelessSensorLoss': {
+      type: 'boolean',
+      description: 'Флаг потери беспроводных датчиков',
+    },
+    'firstGroupTapClosing': {
+      type: 'boolean',
+      description: 'Флаг закрытия кранов первой группе по потере датчиков',
+    },
+    'secondGroupTapClosing': {
+      type: 'boolean',
+      description: 'Флаг закрытия кранов второй группе по потере датчиков',
+    },
+    'wirelessSensorPairingMode': {
+      type: 'boolean',
+      description: 'Флаг запуска процедуры  подключения  беспроводных устройств',
+      writable: true
+    },
+    'firstGroupTapState': {
+      type: 'boolean',
+      description: 'Состояние кранов первой группы',
+      writable: true
+    },
+    'secondGroupTapState': {
+      type: 'boolean',
+      description: 'Состояние кранов второй группы',
+      writable: true
+    },
+    'twoGroupsMode': {
+      type: 'boolean',
+      description: 'Включение группирования',
+      writable: true
+    },
+    'tapsClosingOnSensorLoss': {
+      type: 'boolean',
+      description: 'Закрывания кранов при потере беспроводного датчика протечки',
+      writable: true
+    },
+    'keyboardLock': {
+      type: 'boolean',
+      description: 'Блокировки клавиатуры',
+      writable: true
+    },
+  }
 
 
   // Флаг состояния режима мойка пола
@@ -63,7 +113,7 @@ class R0000 extends BaseRegister {
   static parse(buffer) {
     const r = new R0000();
 
-    R0000.fields.forEach((f, idx) => {
+    Object.keys(R0000.fields).forEach((f, idx) => {
       const byteOffset = idx < 8 ? 1 : 0;
 
       r[f] = buffer.readBit(idx % 8, byteOffset);
@@ -74,7 +124,7 @@ class R0000 extends BaseRegister {
   getRegValues() {
     const data = [];
 
-    R0000.fields.forEach((f) => {
+    Object.keys(R0000.fields).forEach((f) => {
       data.push(this[f] ? '1' : '0');
     });
 
