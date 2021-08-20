@@ -45,13 +45,7 @@ class R0005 extends BaseRegister {
   static parse(buffer) {
     const r = new R0005();
     r.modbusAddr = buffer.readUInt8(0);
-
-    const portSpeedIdx = buffer.readUInt8(1);
-    r.portSpeed = 1200;
-
-    for (let i = 1; i <= portSpeedIdx; i++) {
-      r.portSpeed = r.portSpeed * 2;
-    }
+    r.portSpeed = buffer.readUInt8(1);
 
     return r;
   }
