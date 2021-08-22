@@ -60,7 +60,8 @@ class R0107_R0122 extends BaseRegister {
     'value': {
       type: 'int',
       max: 99999999,
-      description: 'Показания'
+      description: 'Показания',
+      writable: true
     }
   }
 
