@@ -22,7 +22,7 @@ class BaseRegister {
     return raw ? bin : parseInt(bin, 2);
   }
 
-  static fromJSON(data) {
+  static fromJSON({data}) {
     const { fields } = this;
 
     const reg = new this();
