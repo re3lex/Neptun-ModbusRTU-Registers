@@ -10,6 +10,8 @@ const R0001_R0002 = require("./src/registers/R0001_R0002");
 
 const R0007_R0056 = require("./src/registers/R0007_R0056");
 const R0057_R0106 = require("./src/registers/R0057_R0106");
+const R0107_R0122 = require("./src/registers/R0107_R0122");
+const R0123_R0130 = require("./src/registers/R0123_R0130");
 
 
 
@@ -20,15 +22,16 @@ const client = new NeptunClient({
 
 
 const fn = async () => {
-  let reg = await client.read(R0007_R0056.getRegClass(7));
+  let reg = await client.read(R0123_R0130.getRegClass(123));
   console.log('reg', reg.toJSON());
   
-  reg = await client.read(R0057_R0106.getRegClass(57));
-  console.log('reg', reg);
-  
-  
-  //const regs = await client.readAll();
-  //console.log(regs.length);
+  reg.enabled = false;
+
+  const res = await client.write(reg);
+  console.log(res);
+
+  reg = await client.read(R0123_R0130.getRegClass(123));
+  console.log('reg', reg.toJSON());
 }
 
 

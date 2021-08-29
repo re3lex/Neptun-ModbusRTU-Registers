@@ -35,7 +35,7 @@ class NeptunClient {
     this.client = new ModbusRTU();
   }
 
-  connectClient() {
+  doConnect() {
     // close port (NOTE: important in order not to create multiple connections)
     this.client.close(() => { });
 
@@ -54,6 +54,19 @@ class NeptunClient {
         console.error(e);
         return STATES.FAIL_CONNECT;
       });
+  }
+
+  async connectClient() {
+    let connectionAttemp = 0;
+    do {
+      connectionAttemp++;
+      console.log('Connection attemp', connectionAttemp);
+      this.state = await this.doConnect();
+    } while (this.state != STATES.GOOD_CONNECT && connectionAttemp < this.maxConnectionAttemps);
+
+    if (this.state != STATES.GOOD_CONNECT) {
+      throw new Error("Unable to connect to Neptun Smart");
+    }
   }
 
   getRegisterClass(reg) {
@@ -88,16 +101,7 @@ class NeptunClient {
   }
 
   async read(regCls) {
-    let connectionAttemp = 0;
-    do {
-      connectionAttemp++;
-      console.log('Connection attemp', connectionAttemp);
-      this.state = await this.connectClient();
-    } while (this.state != STATES.GOOD_CONNECT && connectionAttemp < this.maxConnectionAttemps);
-
-    if (this.state != STATES.GOOD_CONNECT) {
-      throw new Error("Unable to connect to Neptun Smart");
-    }
+    await this.connectClient();
 
     const { data, buffer } = await this.client.readHoldingRegisters(regCls.startReg, regCls.regLength)
       .catch((e) => {
@@ -123,16 +127,7 @@ class NeptunClient {
   }
 
   async readRegisters(readStartReg, readLength) {
-    let connectionAttemp = 0;
-    do {
-      connectionAttemp++;
-      console.log('Connection attemp', connectionAttemp);
-      this.state = await this.connectClient();
-    } while (this.state != STATES.GOOD_CONNECT && connectionAttemp < this.maxConnectionAttemps);
-
-    if (this.state != STATES.GOOD_CONNECT) {
-      throw new Error("Unable to connect to Neptun Smart");
-    }
+    await this.connectClient();
 
     const regsClsToRead = [];
     for (let reg = readStartReg; reg < readStartReg + readLength; reg++) {
@@ -169,6 +164,33 @@ class NeptunClient {
     }
     console.log('Read all finished');
     return result;
+  }
+
+  async write(reg) {
+    await this.connectClient();
+    
+    const vals = reg.getRegValues();
+    const {startReg, regLength } = reg.constructor;
+    const writeArr = [];
+    for (let i = 0; i < regLength; i++) {
+      writeArr.push(this.client.writeRegister(startReg + i, vals[i]));
+    }
+
+    const runPromisesSequence = async (promises) => {
+      try {
+        for (const x of promises) {
+          const d = await x;
+          console.log("Write to discrete input", d);
+          await new Promise((resolve, reject) => setTimeout(resolve, 1000));
+        }
+        return true;
+      } catch (e) {
+        console.log(e.message);
+        return e.message;
+      }
+
+    }
+    return await runPromisesSequence(writeArr);;
   }
 }
 
