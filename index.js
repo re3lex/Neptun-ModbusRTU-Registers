@@ -22,17 +22,25 @@ const client = new NeptunClient({
 
 
 const fn = async () => {
-  let reg = await client.read(R0123_R0130.getRegClass(123));
-  console.log('reg', reg.toJSON());
-  
-  reg.enabled = false;
+  const promise1 = client.read(R0107_R0122.getRegClass(115))
+    .then(reg => {
+      console.log('reg', reg.toJSON());
+    });
 
-  const res = await client.write(reg);
+  const promise2 = client.read(R0107_R0122.getRegClass(117))
+    .then(reg => {
+      console.log('reg', reg.toJSON());
+    });
+
+
+
+
+/*   const res = await client.write(reg);
   console.log(res);
 
   reg = await client.read(R0123_R0130.getRegClass(123));
   console.log('reg', reg.toJSON());
-}
+ */}
 
 
 fn();

@@ -14,6 +14,7 @@ const STATES = {
   INIT: "State init",
   IDLE: "State idle",
   NEXT: "State next",
+  BUSY: "Busy",
   GOOD_READ: "State good (read)",
   FAIL_READ: "State fail (read)",
   GOOD_CONNECT: "State good (port)",
@@ -56,7 +57,36 @@ class NeptunClient {
       });
   }
 
+  async waitForPortRelease() {
+    return new Promise((resolve, reject) => {
+      let check = 0;
+      const handler = setInterval(() => {
+        if (this.state !== STATES.GOOD_CONNECT
+          && this.state != STATES.BUSY) {
+          clearInterval(handler);
+          console.log('Port released.');
+          resolve(true);
+        }
+        else {
+          if (check > 10) {
+            reject('Port is busy more than ' + 200 * 10 + ' ms');
+          }
+          else {
+            check++;
+          }
+        }
+      }, 200);
+    })
+  }
+
   async connectClient() {
+    console.log('this.state', this.state);
+    if (this.state === STATES.GOOD_CONNECT
+      || this.state === STATES.BUSY) {
+      console.log('Port is busy. Wait.');
+      await this.waitForPortRelease();
+    }
+    this.state = STATES.BUSY;
     let connectionAttemp = 0;
     do {
       connectionAttemp++;
@@ -168,9 +198,9 @@ class NeptunClient {
 
   async write(reg) {
     await this.connectClient();
-    
+
     const vals = reg.getRegValues();
-    const {startReg, regLength } = reg.constructor;
+    const { startReg, regLength } = reg.constructor;
     const writeArr = [];
     for (let i = 0; i < regLength; i++) {
       writeArr.push(this.client.writeRegister(startReg + i, vals[i]));
@@ -190,7 +220,15 @@ class NeptunClient {
       }
 
     }
-    return await runPromisesSequence(writeArr);;
+    return await runPromisesSequence(writeArr)
+      .then((res) => {
+        this.state = STATES.GOOD_READ;
+        return res;
+      })
+      .catch((e) => {
+        this.state = STATES.FAIL_READ;
+        throw e;
+      });
   }
 }
 
